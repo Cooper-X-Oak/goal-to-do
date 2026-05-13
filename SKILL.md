@@ -165,12 +165,18 @@ Prefer:
 
 Intentional line breaks are allowed when they improve clarity. Do not add fake labels or wrapper text around the prompt.
 
+## Optional References
+
+If you need extra example phrasings or fallback reply shapes, read:
+
+- `references/prompt-patterns.md`
+
 ## Typical Triggers
 
 This skill is especially suitable when the user says things like:
 
-- "帮我把这个任务变成一个 `/goal` prompt"
-- "这个目标很长期，先帮我定义清楚"
-- "我想让 Codex 自主推进，但先要对齐边界"
-- "先别执行，先把问题定义好"
-- "给我一个适合 goals 的最终提示词"
+- "Turn this task into a `/goal` prompt"
+- "This objective is long-running; define it clearly first"
+- "I want Codex to drive this, but align the boundaries first"
+- "Do not execute yet; define the problem first"
+- "Give me a final prompt that is appropriate for goals"

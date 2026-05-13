@@ -1,127 +1,150 @@
 # Goal Todo
 
-`goal-todo` is a Codex skill that turns a vague long-running task into a concrete, paste-ready `/goal` prompt.
+`goal-todo` is a single Codex skill for turning a vague long-running task into a concrete, paste-ready `/goal` prompt.
 
-This repository is intentionally small because a Codex skill is mostly prompt and behavior, not executable application code. The core of this skill is:
+This repository is intentionally organized as a portable skill folder, not as an application project. The important distinction is:
 
-- [SKILL.md](./SKILL.md): the full behavior definition
-- [agents/openai.yaml](./agents/openai.yaml): the display metadata and default prompt
+- the agent runtime needs `SKILL.md` and any bundled resources
+- human users need a short, explicit install path, restart step, verification step, and invocation examples
 
-Everything else in this repository exists to make the skill installable, understandable, and reusable by other people.
+This repository includes both.
 
-## Who This Is For
+## Quick Start
 
-Use this skill when:
+### Option 1: Install as a user-level Codex skill
 
-- a task is large or ambiguous and needs boundaries before execution
-- you want Codex to work autonomously, but not blindly
-- you want a final `/goal` prompt instead of a long planning memo
-- you need a repeatable way to define scope, risk, checkpoints, and finish line
+Clone this repository directly into your Codex skills directory:
 
-## What The Skill Does
+```bash
+git clone https://github.com/Cooper-X-Oak/goal-to-do.git "${CODEX_HOME:-$HOME/.codex}/skills/goal-todo"
+```
 
-The skill runs a short alignment workflow before drafting the final `/goal` prompt.
+On Windows PowerShell:
 
-It is opinionated about sequence:
+```powershell
+git clone https://github.com/Cooper-X-Oak/goal-to-do.git "$HOME\.codex\skills\goal-todo"
+```
 
-1. align on goal shape, autonomy style, and finish line
-2. align on scope level, risk posture, and checkpoint frequency
-3. compress the result into one execution-ready `/goal` prompt
+Then restart Codex so it picks up the new skill.
 
-It prefers structured clickable input through `request_user_input`. If the environment does not support that, it falls back to a compact plain-text reply format.
+### Option 2: Run the bundled installer
+
+From a checkout of this repository:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1
+```
+
+The default target is:
+
+```text
+$CODEX_HOME/skills/goal-todo
+```
+
+When `CODEX_HOME` is not set, the installer falls back to:
+
+```text
+~/.codex/skills/goal-todo
+```
+
+### Option 3: Install into a project-local Agent Skills directory
+
+Some Agent Skills clients and community repos use a workspace-local layout:
+
+```text
+<project>/.agents/skills/goal-todo
+```
+
+To install this repository in that layout:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1 -Scope Project -ProjectRoot C:\path\to\your\project
+```
+
+## Verify The Install
+
+After installation:
+
+1. restart Codex
+2. open a session in any repo
+3. try one of these prompts
+
+Explicit invocation:
+
+```text
+$goal-todo help me turn this vague multi-step task into a /goal prompt
+```
+
+Natural-language invocation:
+
+```text
+Turn this vague task into a /goal prompt before we execute
+```
+
+```text
+I want Codex to drive this, but first define the boundaries
+```
+
+Expected behavior:
+
+1. Codex asks a short alignment round
+2. you choose shape, autonomy, scope, risk, and checkpoints
+3. Codex returns one final `/goal ...` prompt
 
 ## Repository Layout
 
 ```text
-.
+goal-to-do/
 |- SKILL.md
 |- README.md
 |- LICENSE
 |- CONTRIBUTING.md
 |- agents/
 |  \- openai.yaml
-\- examples/
-   |- plain-text-fallback.txt
-   \- session-example.md
+|- references/
+|  |- quickstart.md
+|  \- prompt-patterns.md
+|- examples/
+|  |- plain-text-fallback.txt
+|  \- session-example.md
+\- scripts/
+   |- install.ps1
+   \- install.sh
 ```
 
-## Install
+## Why This Structure
 
-Copy or clone this repository into your Codex skills directory under the folder name `goal-todo`.
+This layout follows the current Codex and Agent Skills conventions:
 
-Expected target path:
+- `SKILL.md` is the required runtime entry point
+- `agents/openai.yaml` is recommended metadata for Codex surfaces
+- `references/` holds docs that can be loaded only when needed
+- `scripts/` holds deterministic helper tooling such as installers
+- `examples/` gives humans a fast way to understand expected interaction shape
 
-```text
-$CODEX_HOME/skills/goal-todo
-```
+The repo root is the skill root. That means users can either:
 
-### Option 1: Clone directly
+- clone it directly into their skills directory
+- copy the whole repository into a compatible skills directory
+- install it project-locally under `.agents/skills/goal-todo`
 
-```bash
-git clone https://github.com/Cooper-X-Oak/goal-to-do.git "$CODEX_HOME/skills/goal-todo"
-```
+## Usage Notes
 
-### Option 2: Copy an existing checkout
+This skill is for defining the goal before execution starts. It is not a task runner by itself.
 
-```text
-goal-to-do/
-  SKILL.md
-  agents/openai.yaml
-```
+Use it when:
 
-As long as those files exist under `$CODEX_HOME/skills/goal-todo`, Codex can load the skill.
+- the work is multi-step or long-running
+- the user wants autonomy but with explicit boundaries
+- a clean `/goal` prompt is more useful than a long planning memo
 
-## How To Use
+Do not use it when the user already gave a fully specified `/goal` prompt and does not need alignment.
 
-Ask for the skill by name, or use language that clearly matches its purpose.
+## More Detail
 
-Example prompts:
-
-- `帮我把这个任务整理成一个 /goal prompt`
-- `这个目标很长期，先帮我定义清楚`
-- `I want Codex to drive this, but first define the boundaries`
-- `Before we execute, turn this into a proper long-running goal`
-
-## What A Good First Run Looks Like
-
-Expected flow:
-
-1. Codex asks structured questions about the kind of goal you want
-2. you choose options for autonomy, finish line, scope, and risk
-3. Codex returns one final `/goal ...` prompt
-
-The default deliverable is the `/goal` prompt itself, not a report around it.
-
-## Plain-Text Fallback
-
-If `request_user_input` is unavailable, the skill can ask for a reply like this:
-
-```text
-shape=ship_change
-autonomy=tight_then_loose
-finish=single_clear_deliverable
-
-scope=balanced
-risk=conservative
-checkpoints=scope_and_review
-```
-
-See [examples/plain-text-fallback.txt](./examples/plain-text-fallback.txt).
-
-## Full Example
-
-See [examples/session-example.md](./examples/session-example.md) for a realistic end-to-end interaction, from vague task to final `/goal` prompt.
-
-## What Makes This A Complete Skill
-
-For a Codex skill, the complete portable unit is usually:
-
-1. `SKILL.md`
-2. any agent metadata under `agents/`
-3. enough documentation for installation and invocation
-4. examples that show expected interaction shape
-
-This repository includes all four.
+- Install and verification details: [references/quickstart.md](./references/quickstart.md)
+- Prompt patterns and activation examples: [references/prompt-patterns.md](./references/prompt-patterns.md)
+- Full interaction example: [examples/session-example.md](./examples/session-example.md)
 
 ## Contributing
 
