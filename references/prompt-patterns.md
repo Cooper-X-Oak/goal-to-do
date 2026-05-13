@@ -35,3 +35,11 @@ checkpoints=scope_and_review
 - turn a vague repository task into a bounded delivery goal
 - define autonomy and stop points before a long-running task starts
 - produce a final `/goal` prompt without making the user copy a long brief
+
+## Repository Convention
+
+In this repository the runtime skill is stored at:
+
+```text
+skills/goal-todo/
+```

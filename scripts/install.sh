@@ -6,13 +6,14 @@ PROJECT_ROOT="${2:-}"
 SKILL_NAME="goal-todo"
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 REPO_ROOT="$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)"
+SKILL_SOURCE_ROOT="$REPO_ROOT/skills/$SKILL_NAME"
 
 copy_skill_files() {
   src_root="$1"
   dst_root="$2"
-  for entry in SKILL.md README.md LICENSE CONTRIBUTING.md .gitattributes .gitignore agents references examples scripts; do
-    if [ -e "$src_root/$entry" ]; then
-      cp -R "$src_root/$entry" "$dst_root/"
+  for entry in "$src_root"/*; do
+    if [ -e "$entry" ]; then
+      cp -R "$entry" "$dst_root/"
     fi
   done
 }
@@ -34,7 +35,7 @@ TARGET_DIR="$BASE_DIR/$SKILL_NAME"
 mkdir -p "$BASE_DIR"
 rm -rf "$TARGET_DIR"
 mkdir -p "$TARGET_DIR"
-copy_skill_files "$REPO_ROOT" "$TARGET_DIR"
+copy_skill_files "$SKILL_SOURCE_ROOT" "$TARGET_DIR"
 
 echo "Installed $SKILL_NAME to: $TARGET_DIR"
 echo "Restart Codex, then try: \$goal-todo help me turn this vague task into a /goal prompt"

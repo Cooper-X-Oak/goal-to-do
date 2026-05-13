@@ -1,12 +1,16 @@
 # Quickstart
 
-This file is the human-facing install and verification guide for `goal-todo`.
+This repository follows the common community layout where the runtime skill lives under:
+
+```text
+skills/goal-todo/
+```
 
 ## Install Paths
 
-### Codex user-level install
+### Codex user-level
 
-Preferred target:
+The final installed path should be:
 
 ```text
 $CODEX_HOME/skills/goal-todo
@@ -18,29 +22,35 @@ Fallback when `CODEX_HOME` is unset:
 ~/.codex/skills/goal-todo
 ```
 
-### Project-local install for Agent Skills clients
+### Project-local community layout
 
-Common community layout:
+Common project-local target:
 
 ```text
 <project>/.agents/skills/goal-todo
 ```
 
-## Install Commands
+## Install Options
 
-### Manual clone
+### GitHub directory URL
 
-```bash
-git clone https://github.com/Cooper-X-Oak/goal-to-do.git "${CODEX_HOME:-$HOME/.codex}/skills/goal-todo"
+```text
+https://github.com/Cooper-X-Oak/goal-to-do/tree/main/skills/goal-todo
 ```
 
-### PowerShell installer
+### `$skill-installer`
+
+```text
+$skill-installer install https://github.com/Cooper-X-Oak/goal-to-do/tree/main/skills/goal-todo
+```
+
+### PowerShell installer from a repo checkout
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1
 ```
 
-### PowerShell installer for project-local layout
+### Project-local install from a repo checkout
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1 -Scope Project -ProjectRoot C:\path\to\repo
@@ -48,19 +58,17 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1 -Scope Project -P
 
 ## Restart
 
-After installing, restart Codex so it can discover the new skill.
+After installing, restart Codex or your skill host.
 
 ## Verification
 
-Use either an explicit or natural-language trigger.
-
-Explicit:
+Explicit invocation:
 
 ```text
 $goal-todo help me turn this vague task into a /goal prompt
 ```
 
-Natural-language:
+Natural-language invocation:
 
 ```text
 Turn this long-running task into a /goal prompt
@@ -68,6 +76,6 @@ Turn this long-running task into a /goal prompt
 
 Expected result:
 
-1. Codex asks an alignment round
-2. the user chooses from structured options
-3. Codex returns one final `/goal ...` prompt
+1. the agent asks an alignment round
+2. the user selects structured options
+3. the final output is one `/goal ...` prompt

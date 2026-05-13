@@ -1,33 +1,54 @@
 # Goal Todo
 
-`goal-todo` is a single Codex skill for turning a vague long-running task into a concrete, paste-ready `/goal` prompt.
+`goal-todo` is a single skill repository organized in the common community layout:
 
-This repository is intentionally organized as a portable skill folder, not as an application project. The important distinction is:
-
-- the agent runtime needs `SKILL.md` and any bundled resources
-- human users need a short, explicit install path, restart step, verification step, and invocation examples
-
-This repository includes both.
-
-## Quick Start
-
-### Option 1: Install as a user-level Codex skill
-
-Clone this repository directly into your Codex skills directory:
-
-```bash
-git clone https://github.com/Cooper-X-Oak/goal-to-do.git "${CODEX_HOME:-$HOME/.codex}/skills/goal-todo"
+```text
+skills/<skill-name>/SKILL.md
 ```
 
-On Windows PowerShell:
+In this repository, the runtime skill lives at:
 
-```powershell
-git clone https://github.com/Cooper-X-Oak/goal-to-do.git "$HOME\.codex\skills\goal-todo"
+```text
+skills/goal-todo/
 ```
 
-Then restart Codex so it picks up the new skill.
+That makes the repo easier to understand for people already using community skill collections, while still allowing direct installation into Codex.
 
-### Option 2: Run the bundled installer
+## Repository Layout
+
+```text
+goal-to-do/
+|- README.md
+|- LICENSE
+|- CONTRIBUTING.md
+|- references/
+|- examples/
+|- scripts/
+\- skills/
+   \- goal-todo/
+      |- SKILL.md
+      |- LICENSE.txt
+      \- agents/
+         \- openai.yaml
+```
+
+## Install
+
+### Recommended: install the skill directory directly
+
+If your client supports GitHub directory installs, use the skill subdirectory URL:
+
+```text
+https://github.com/Cooper-X-Oak/goal-to-do/tree/main/skills/goal-todo
+```
+
+For Codex environments that support `$skill-installer`, the command is:
+
+```text
+$skill-installer install https://github.com/Cooper-X-Oak/goal-to-do/tree/main/skills/goal-todo
+```
+
+### Codex user-level install
 
 From a checkout of this repository:
 
@@ -35,116 +56,73 @@ From a checkout of this repository:
 powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1
 ```
 
-The default target is:
+This installs the contents of `skills/goal-todo/` to:
 
 ```text
 $CODEX_HOME/skills/goal-todo
 ```
 
-When `CODEX_HOME` is not set, the installer falls back to:
+If `CODEX_HOME` is not set, the installer uses:
 
 ```text
 ~/.codex/skills/goal-todo
 ```
 
-### Option 3: Install into a project-local Agent Skills directory
+### Project-local install
 
-Some Agent Skills clients and community repos use a workspace-local layout:
+For community clients that use project-local skills:
 
 ```text
 <project>/.agents/skills/goal-todo
 ```
 
-To install this repository in that layout:
+Install with:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1 -Scope Project -ProjectRoot C:\path\to\your\project
+powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1 -Scope Project -ProjectRoot C:\path\to\project
 ```
 
-## Verify The Install
+## Verify
 
 After installation:
 
-1. restart Codex
-2. open a session in any repo
+1. restart Codex or your skill host
+2. start a new session
 3. try one of these prompts
 
-Explicit invocation:
+Explicit:
 
 ```text
 $goal-todo help me turn this vague multi-step task into a /goal prompt
 ```
 
-Natural-language invocation:
+Natural-language:
 
 ```text
-Turn this vague task into a /goal prompt before we execute
-```
-
-```text
-I want Codex to drive this, but first define the boundaries
+Turn this long-running task into a /goal prompt before we execute
 ```
 
 Expected behavior:
 
-1. Codex asks a short alignment round
+1. the agent asks a short alignment round
 2. you choose shape, autonomy, scope, risk, and checkpoints
-3. Codex returns one final `/goal ...` prompt
+3. the agent returns one final `/goal ...` prompt
 
-## Repository Layout
+## When To Use This Skill
 
-```text
-goal-to-do/
-|- SKILL.md
-|- README.md
-|- LICENSE
-|- CONTRIBUTING.md
-|- agents/
-|  \- openai.yaml
-|- references/
-|  |- quickstart.md
-|  \- prompt-patterns.md
-|- examples/
-|  |- plain-text-fallback.txt
-|  \- session-example.md
-\- scripts/
-   |- install.ps1
-   \- install.sh
-```
+Use `goal-todo` when:
 
-## Why This Structure
+- the task is long-running or ambiguous
+- the user wants autonomy with clear boundaries
+- the best deliverable is a compact `/goal` prompt rather than a planning memo
 
-This layout follows the current Codex and Agent Skills conventions:
-
-- `SKILL.md` is the required runtime entry point
-- `agents/openai.yaml` is recommended metadata for Codex surfaces
-- `references/` holds docs that can be loaded only when needed
-- `scripts/` holds deterministic helper tooling such as installers
-- `examples/` gives humans a fast way to understand expected interaction shape
-
-The repo root is the skill root. That means users can either:
-
-- clone it directly into their skills directory
-- copy the whole repository into a compatible skills directory
-- install it project-locally under `.agents/skills/goal-todo`
-
-## Usage Notes
-
-This skill is for defining the goal before execution starts. It is not a task runner by itself.
-
-Use it when:
-
-- the work is multi-step or long-running
-- the user wants autonomy but with explicit boundaries
-- a clean `/goal` prompt is more useful than a long planning memo
-
-Do not use it when the user already gave a fully specified `/goal` prompt and does not need alignment.
+Do not use it when the user already has a final `/goal` prompt and does not need alignment.
 
 ## More Detail
 
-- Install and verification details: [references/quickstart.md](./references/quickstart.md)
-- Prompt patterns and activation examples: [references/prompt-patterns.md](./references/prompt-patterns.md)
-- Full interaction example: [examples/session-example.md](./examples/session-example.md)
+- install and verification: [references/quickstart.md](./references/quickstart.md)
+- trigger examples: [references/prompt-patterns.md](./references/prompt-patterns.md)
+- full example session: [examples/session-example.md](./examples/session-example.md)
 
 ## Contributing
 

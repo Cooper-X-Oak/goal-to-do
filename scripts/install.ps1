@@ -9,6 +9,7 @@ $ErrorActionPreference = "Stop"
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $SkillName = "goal-todo"
+$SkillSourceRoot = Join-Path $RepoRoot "skills\$SkillName"
 
 function Copy-SkillFiles {
   param(
@@ -16,24 +17,8 @@ function Copy-SkillFiles {
     [string]$TargetRoot
   )
 
-  $entries = @(
-    "SKILL.md",
-    "README.md",
-    "LICENSE",
-    "CONTRIBUTING.md",
-    ".gitattributes",
-    ".gitignore",
-    "agents",
-    "references",
-    "examples",
-    "scripts"
-  )
-
-  foreach ($entry in $entries) {
-    $source = Join-Path $SourceRoot $entry
-    if (Test-Path -LiteralPath $source) {
-      Copy-Item -LiteralPath $source -Destination $TargetRoot -Recurse -Force
-    }
+  Get-ChildItem -LiteralPath $SourceRoot -Force | ForEach-Object {
+    Copy-Item -LiteralPath $_.FullName -Destination $TargetRoot -Recurse -Force
   }
 }
 
@@ -63,7 +48,7 @@ if (Test-Path -LiteralPath $TargetDir) {
 }
 New-Item -ItemType Directory -Force -Path $TargetDir | Out-Null
 
-Copy-SkillFiles -SourceRoot $RepoRoot -TargetRoot $TargetDir
+Copy-SkillFiles -SourceRoot $SkillSourceRoot -TargetRoot $TargetDir
 
 Write-Host "Installed $SkillName to: $TargetDir"
 Write-Host "Next steps:"

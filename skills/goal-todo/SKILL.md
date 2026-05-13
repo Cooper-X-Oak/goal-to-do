@@ -165,12 +165,6 @@ Prefer:
 
 Intentional line breaks are allowed when they improve clarity. Do not add fake labels or wrapper text around the prompt.
 
-## Optional References
-
-If you need extra example phrasings or fallback reply shapes, read:
-
-- `references/prompt-patterns.md`
-
 ## Typical Triggers
 
 This skill is especially suitable when the user says things like:

@@ -4,7 +4,7 @@ Thanks for contributing to `goal-todo`.
 
 ## Design Constraints
 
-This repository is small on purpose. Do not add framework code, installers, or extra tooling unless the skill actually needs them.
+This repository is small on purpose. Do not add framework code or extra tooling unless the skill actually needs them.
 
 The skill should continue to:
 
@@ -15,7 +15,8 @@ The skill should continue to:
 
 ## Repository Rules
 
-- keep `SKILL.md` as the source of truth for behavior
+- keep `skills/goal-todo/SKILL.md` as the source of truth for behavior
+- keep repository-level docs in `references/` and examples in `examples/`
 - keep examples realistic and short
 - preserve ASCII unless a file already needs another character set
 - document user-visible behavior changes in `README.md`
