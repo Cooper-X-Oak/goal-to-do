@@ -1,0 +1,4 @@
+interface:
+  display_name: "Goal Todo"
+  short_description: "Define a long-running goal before using /goal"
+  default_prompt: "Help me turn a vague long task into a goal-ready brief and a final /goal prompt."

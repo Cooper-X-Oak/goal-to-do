@@ -1,0 +1,7 @@
+shape=ship_change
+autonomy=tight_then_loose
+finish=single_clear_deliverable
+
+scope=balanced
+risk=conservative
+checkpoints=scope_and_review
