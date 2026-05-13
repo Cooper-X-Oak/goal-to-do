@@ -1,5 +1,13 @@
 # Goal Todo
 
+## Install with `$skill-installer`
+
+```text
+$skill-installer install https://github.com/Cooper-X-Oak/goal-to-do/tree/main/skills/goal-todo
+```
+
+Restart Codex to pick up the new skill.
+
 `goal-todo` is a single skill repository organized in the common community layout:
 
 ```text
@@ -123,6 +131,7 @@ Do not use it when the user already has a final `/goal` prompt and does not need
 - install and verification: [references/quickstart.md](./references/quickstart.md)
 - trigger examples: [references/prompt-patterns.md](./references/prompt-patterns.md)
 - full example session: [examples/session-example.md](./examples/session-example.md)
+- release note template: [.github/release-template.md](./.github/release-template.md)
 
 ## Contributing
 

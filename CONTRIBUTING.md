@@ -30,3 +30,13 @@ For changes, verify manually that:
 1. the install path is still obvious
 2. the invocation examples still match the skill behavior
 3. the final output contract remains a single `/goal` prompt unless explicitly expanded
+
+## Releases
+
+When creating a GitHub release, start from:
+
+```text
+.github/release-template.md
+```
+
+Keep release notes focused on user-visible skill behavior, install path changes, and compatibility notes.
